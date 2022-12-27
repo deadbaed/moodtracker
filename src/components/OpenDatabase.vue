@@ -31,10 +31,15 @@ function loadFile($event: Event) {
 
 <template>
   <h2>Get started</h2>
-  <div class="mb-3">
-    <label for="existing-file" class="form-label">Open existing MoodTracker</label>
-    <input class="form-control" id='existing-file' type='file' accept=".moodtracker" @change="loadFile($event)"/>
+
+  <!-- existing -->
+  <div class="mb-1">
+    <button class="btn btn-primary" onclick="document.getElementById('existing-file').click();">
+      Open existing MoodTracker
+    </button>
+    <input class="d-none" id='existing-file' type='file' accept=".moodtracker" @change="loadFile($event)"/>
   </div>
 
+  <!-- create new -->
   <button class="btn btn-primary me-1" @click="databaseStore.createNew()">Create new MoodTracker</button>
 </template>

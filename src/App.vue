@@ -10,9 +10,11 @@ const databaseStore = useDatabaseStore();
 <template>
   <div class="container">
     <h1>MoodTracker</h1>
-    <OpenDatabase/>
+
+    <div class="mt-5">
+      <OpenDatabase v-if="!databaseStore.present"/>
+    </div>
 
 
-    <div>is database present <code>{{ databaseStore.present }}</code></div>
   </div>
 </template>
