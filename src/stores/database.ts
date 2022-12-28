@@ -11,8 +11,11 @@ type DatabaseStore = {
 export const useDatabaseStore = defineStore('database', {
     state: (): DatabaseStore => ({database: null, name: null}),
     getters: {
-        present: (state) => state.database !== null,
+        isDatabaseSet: (state) => state.database !== null,
         isNameSet: (state) => state.name !== null,
+        setupIsComplete(): boolean {
+            return this.isDatabaseSet && this.isNameSet;
+        }
     },
     actions: {
         loadFromFile(arrayBuffer: ArrayBuffer) {

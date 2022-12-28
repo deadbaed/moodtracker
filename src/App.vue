@@ -13,14 +13,17 @@ const databaseStore = useDatabaseStore();
   <div class="container">
     <h1>MoodTracker</h1>
 
-    <OpenDatabase class="mt-5" v-if="!databaseStore.present"/>
-
-    <div v-if="databaseStore.present" class="mt-5">
-      <NewDatabase v-if="!databaseStore.isNameSet"/>
-      <div>Hello {{databaseStore.name}}</div>
-      <DownloadDatabase/>
+    <!-- open or create -->
+    <div class="mt-5">
+      <OpenDatabase v-if="!databaseStore.isDatabaseSet"/>
+      <NewDatabase v-else-if="!databaseStore.isNameSet"/>
     </div>
 
+    <!-- main app -->
+    <div class="mt-5" v-if="databaseStore.setupIsComplete">
+      <div>Hello <code>{{databaseStore.name}}</code></div>
+      <DownloadDatabase/>
+    </div>
 
   </div>
 </template>
