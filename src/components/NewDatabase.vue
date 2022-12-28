@@ -17,6 +17,6 @@ function saveName() {
   <p>What's your name?</p>
   <div class="mb-3">
     <input v-model="name" required type="text" class="form-control" placeholder="My name is...">
-    <button @click="saveName" class="btn btn-primary mt-1">Save</button>
+    <button @click="saveName" class="btn btn-primary mt-2">Save</button>
   </div>
 </template>

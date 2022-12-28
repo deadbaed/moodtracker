@@ -24,7 +24,18 @@ export const useDatabaseStore = defineStore('database', {
             // open sqlite database
             this.database = new SQL.Database(uInt8Array);
 
-            // TODO: get name from db, put in store
+            // get settings from database, put in store
+            const stmt = this.database.prepare("select * from settings");
+            stmt.step();
+            const settings = stmt.getAsObject();
+
+            if (settings.name === null) {
+                throw Error("Invalid MoodTracker file");
+            }
+            this.setNameInStore(settings.name.toString());
+
+            // free memory
+            stmt.free();
         },
         createNew() {
             this.database = new SQL.Database();
