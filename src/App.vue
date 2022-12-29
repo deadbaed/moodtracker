@@ -4,6 +4,7 @@ import {useDatabaseStore} from "./stores/database";
 import DownloadDatabase from "./components/DownloadDatabase.vue";
 import NewDatabase from "./components/NewDatabase.vue";
 import AddImage from "./components/AddImage.vue";
+import SetMood from "./components/SetMood.vue";
 
 const databaseStore = useDatabaseStore();
 
@@ -23,6 +24,7 @@ const databaseStore = useDatabaseStore();
     <div class="mt-5" v-if="databaseStore.setupIsComplete">
       <h2>Hello {{databaseStore.name}}!</h2>
 
+      <SetMood/>
       <AddImage/>
       <DownloadDatabase/>
     </div>

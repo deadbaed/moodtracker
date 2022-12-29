@@ -14,7 +14,8 @@
     "bootstrap": "^5.2.3",
     "pinia": "^2.0.28",
     "sql.js": "^1.8.0",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vue3-slider": "^1.8.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
