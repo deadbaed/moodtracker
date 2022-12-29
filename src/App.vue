@@ -3,7 +3,7 @@ import OpenDatabase from "./components/OpenDatabase.vue";
 import {useDatabaseStore} from "./stores/database";
 import DownloadDatabase from "./components/DownloadDatabase.vue";
 import NewDatabase from "./components/NewDatabase.vue";
-
+import AddImage from "./components/AddImage.vue";
 
 const databaseStore = useDatabaseStore();
 
@@ -21,7 +21,9 @@ const databaseStore = useDatabaseStore();
 
     <!-- main app -->
     <div class="mt-5" v-if="databaseStore.setupIsComplete">
-      <div>Hello <code>{{databaseStore.name}}</code></div>
+      <h2>Hello {{databaseStore.name}}!</h2>
+
+      <AddImage/>
       <DownloadDatabase/>
     </div>
 
