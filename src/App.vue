@@ -5,6 +5,7 @@ import DownloadDatabase from "./components/DownloadDatabase.vue";
 import NewDatabase from "./components/NewDatabase.vue";
 import AddImage from "./components/AddImage.vue";
 import SetMood from "./components/SetMood.vue";
+import InsertDescription from "./components/InsertDescription.vue";
 
 const databaseStore = useDatabaseStore();
 
@@ -25,6 +26,7 @@ const databaseStore = useDatabaseStore();
       <h2>Hello {{databaseStore.name}}!</h2>
 
       <SetMood/>
+      <InsertDescription/>
       <AddImage/>
       <DownloadDatabase/>
     </div>
