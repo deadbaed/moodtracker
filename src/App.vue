@@ -10,6 +10,8 @@ import GetLocation from "./components/GetLocation.vue";
 
 const databaseStore = useDatabaseStore();
 
+const geolocationTest = () => 'geolocation' in navigator;
+
 </script>
 
 <template>
@@ -28,7 +30,7 @@ const databaseStore = useDatabaseStore();
 
       <SetMood/>
       <InsertDescription/>
-      <GetLocation/>
+      <GetLocation v-if="geolocationTest"/>
       <AddImage/>
       <DownloadDatabase/>
     </div>
