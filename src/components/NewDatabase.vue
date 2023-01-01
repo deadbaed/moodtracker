@@ -4,9 +4,12 @@ import {ref} from "vue";
 
 const databaseStore = useDatabaseStore();
 
-const name = ref("");
+const name = ref<string>();
+
 function saveName() {
-  databaseStore.setName(name.value);
+  if (name.value) {
+    databaseStore.setName(name.value);
+  }
 }
 
 </script>
