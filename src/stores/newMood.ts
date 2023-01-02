@@ -28,6 +28,9 @@ export const useNewMoodStore = defineStore('newMood', {
         },
         noText() {
             this.text = null;
-        }
+        },
+        setLocation(value: Location) {
+            this.location = value;
+        },
     },
 });

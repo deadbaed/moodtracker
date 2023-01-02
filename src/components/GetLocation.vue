@@ -3,6 +3,9 @@
 import {ref} from "vue";
 import {MapPinIcon} from '@heroicons/vue/20/solid';
 import {Location} from "../stores/newMood";
+import {useNewMoodStore} from "../stores/newMood";
+
+const newMoodStore = useNewMoodStore();
 
 const errorMsg = ref<string>();
 const showSpinner = ref(false);
@@ -23,6 +26,7 @@ function locatorButtonPressed() {
           location.value.latitude = latitude;
           location.value.longitude = longitude;
         }
+        newMoodStore.setLocation(location.value);
       },
       error => {
         showSpinner.value = false;
