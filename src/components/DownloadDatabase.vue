@@ -20,4 +20,6 @@ function downloadFile() {
   <p>You are done! You can download your MoodTracker and close this page.</p>
   <p>See you tomorrow 👋</p>
   <button class="btn btn-primary" @click="downloadFile">Download your MoodTracker</button>
+
+  <p class="mt-2">If you notice the date being incorrect, it is because the dates are stored in UTC format, it's normal!</p>
 </template>

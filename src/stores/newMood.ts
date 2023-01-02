@@ -1,6 +1,15 @@
 import {defineStore} from "pinia";
+import {useDatabaseStore} from "./database";
 
 export type Location = { latitude: number, longitude: number };
+
+export type Mood = {
+    mood: number;
+    text: string | null;
+    location: Location | null;
+    image: Blob | null;
+    timestamp: string;
+};
 
 type NewMoodStore = {
     mood: number | null;
@@ -52,9 +61,23 @@ export const useNewMoodStore = defineStore('newMood', {
         save() {
             this.setTimestamp();
 
-            // make sql query to save here
+            const databaseStore = useDatabaseStore();
 
-            this.sqlQuery = true;
+            if (this.mood === null) {
+                throw Error("Mood is not set");
+            }
+            if (this.timestamp === null) {
+                throw Error("Timestamp is not set");
+            }
+
+            const mood: Mood = {
+                mood: this.mood,
+                text: this.text,
+                location: this.location,
+                image: this.image,
+                timestamp: this.timestamp,
+            };
+            databaseStore.insertEntry(mood).then(() => this.sqlQuery = true);
         },
     },
 });

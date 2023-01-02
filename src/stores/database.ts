@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 import {SQL} from "../main";
 import {Database} from "sql.js";
-
+import {Mood} from "./newMood";
 
 type DatabaseStore = {
     database: Database | null;
@@ -40,7 +40,10 @@ export const useDatabaseStore = defineStore('database', {
         createNew() {
             this.database = new SQL.Database();
 
-            // TODO: sql to create table
+            // create table to store moods
+            const sql =
+                "create table mood(timestamp text not null default current_timestamp, text text, image blob, latitude real, longitude real, mood integer not null);";
+            this.database.run(sql);
         },
         setName(name: string) {
             if (this.database === null) {
@@ -68,13 +71,26 @@ export const useDatabaseStore = defineStore('database', {
             }
             return new Blob([this.database.export()], {type: "application/vnd.sqlite3"});
         },
-        selectAll() {
+        async insertEntry(mood: Mood) {
             if (this.database === null) {
                 throw Error("MoodTracker file is not present");
             }
 
-            const moods = this.database.exec("select * from mood");
-            console.log(moods);
-        }
+            // Image preparation
+            const imageArrayBuffer = await mood.image?.arrayBuffer();
+            const image = (imageArrayBuffer !== undefined) ?  new Uint8Array(imageArrayBuffer) : null;
+
+            // Location preparation
+            const latitude = mood.location?.latitude || null;
+            const longitude = mood.location?.longitude || null;
+
+            // insert record
+            const stmt = this.database.prepare("insert into mood (timestamp, text, image, latitude, longitude, mood) values (?, ?, ?, ?, ?, ?)")
+            stmt.bind([mood.timestamp, mood.text, image, latitude, longitude, mood.mood]);
+            stmt.run();
+
+            // free memory
+            stmt.free();
+        },
     }
 });
