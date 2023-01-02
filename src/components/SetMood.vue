@@ -16,33 +16,59 @@ const scales = [
   {
     label: 'super bad',
     value: 0,
+    css: 'btn-danger',
   },
   {
     label: 'bad',
     value: 1,
+    css: 'btn-warning',
   },
   {
     label: 'neutral',
     value: 2,
+    css: 'btn-secondary',
   },
   {
     label: 'good',
     value: 3,
+    css: 'btn-info',
   },
   {
     label: 'super good',
     value: 4,
+    css: 'btn-success',
   },
 ];
+
+const setMood = (newMood: number) => {
+  mood.value = newMood;
+};
 
 </script>
 
 <template>
   <h2>How did you feel today?</h2>
-  <div class="mt-4 mb-4">
-    <vue3-slider v-model="mood" :height="10" :alwaysShowHandle="true" :sticky=true :min="0" :max="4"
+
+  <!-- slider -->
+  <div class="m-4">
+    <vue3-slider v-model="mood"
+                 :height="15"
+                 :alwaysShowHandle="true"
+                 :sticky=true
+                 :min="0"
+                 :max="4"
                  :step="1"
-                 color="#0d6efd" trackColor="rgba(0,0,0,0.15)"/>
+                 color="#0d6efd"
+                 trackColor="rgba(0,0,0,0.15)"/>
   </div>
-  <div>{{ scales.at(mood).label }}</div>
+
+  <!-- buttons -->
+  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+    <button v-for="scale in scales" type="button" class="btn" :class="scale.css" @click="setMood(scale.value)">
+      {{ scale.label }}
+    </button>
+  </div>
+
+  <!-- current mood -->
+  <div class="mt-1">Current mood: <code>{{ scales.at(mood).label }}</code></div>
 </template>
