@@ -22,6 +22,12 @@ export const useNewMoodStore = defineStore('newMood', {
     actions: {
         setMood(value: number) {
             this.mood = value;
+        },
+        setText(value: string) {
+            this.text = value;
+        },
+        noText() {
+            this.text = null;
         }
     },
 });

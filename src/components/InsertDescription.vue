@@ -1,11 +1,23 @@
 <script setup lang="ts">
-
 import {ref} from "vue";
+import {useNewMoodStore} from "../stores/newMood";
 
-const text = ref("");
+const newMoodStore = useNewMoodStore();
+
+const text = ref<string>();
 
 function saveText() {
-  console.log(text.value);
+  // On empty text, set to null
+  if (text.value === '') {
+    text.value = undefined;
+    newMoodStore.noText();
+  }
+  if (text.value === undefined) {
+    return;
+  }
+
+  // Store text to store
+  newMoodStore.setText(text.value);
 }
 </script>
 
