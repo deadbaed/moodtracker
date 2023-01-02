@@ -33,7 +33,7 @@ const geolocationTest = () => 'geolocation' in navigator;
 
       <SetMood/>
       <InsertDescription/>
-      <GetLocation v-if="geolocationTest"/>
+      <GetLocation v-if="geolocationTest()"/>
       <AddImage/>
 
       <Save/>

@@ -30,7 +30,13 @@ watch(mood, function(newValue, _oldValue) {
 // Set initial mood
 setMood(2);
 
-const scales = [
+type Scale = {
+  label: string;
+  value: number;
+  css: string;
+};
+
+const scales: Scale[] = [
   {
     label: 'super bad',
     value: 0,
@@ -57,6 +63,14 @@ const scales = [
     css: 'btn-success',
   },
 ];
+
+const getScale = (scale: number | undefined): Scale | null => {
+  if (scale === undefined) {
+    return null;
+  }
+  return scales.at(scale) || null;
+};
+
 </script>
 
 <template>
@@ -83,5 +97,5 @@ const scales = [
   </div>
 
   <!-- current mood -->
-  <div class="mt-1">Current mood: <code>{{ scales.at(mood).label }}</code></div>
+  <div class="mt-1" v-if="getScale(mood)">Current mood: <code>{{ getScale(mood)?.label }}</code></div>
 </template>
