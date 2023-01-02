@@ -2,10 +2,11 @@
 
 import {ref} from "vue";
 import {MapPinIcon} from '@heroicons/vue/20/solid';
+import {Location} from "../stores/newMood";
 
 const errorMsg = ref<string>();
 const showSpinner = ref(false);
-const location = ref<{ latitude: number, longitude: number } | undefined>();
+const location = ref<Location | undefined>();
 
 function locatorButtonPressed() {
   showSpinner.value = true;
