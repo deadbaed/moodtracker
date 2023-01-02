@@ -44,5 +44,11 @@ const geolocationTest = () => 'geolocation' in navigator;
       <DownloadDatabase/>
     </div>
 
+    <footer>
+      <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+        <p>Made with ❤️ by <a href="https://philippeloctaux.com">phil</a></p>
+      </div>
+    </footer>
+
   </div>
 </template>
