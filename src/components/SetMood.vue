@@ -9,9 +9,27 @@ export default {
 </script>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, watch} from "vue";
+import {useNewMoodStore} from "../stores/newMood";
 
-const mood = ref(2);
+const newMoodStore = useNewMoodStore();
+
+const mood = ref<number>();
+const setMood = (newMood: number) => {
+  mood.value = newMood;
+};
+
+// Watch when mood value is changed
+watch(mood, function(newValue, _oldValue) {
+  if (newValue === undefined) {
+    return;
+  }
+  newMoodStore.setMood(newValue);
+});
+
+// Set initial mood
+setMood(2);
+
 const scales = [
   {
     label: 'super bad',
@@ -39,11 +57,6 @@ const scales = [
     css: 'btn-success',
   },
 ];
-
-const setMood = (newMood: number) => {
-  mood.value = newMood;
-};
-
 </script>
 
 <template>
