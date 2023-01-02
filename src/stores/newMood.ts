@@ -6,8 +6,7 @@ type NewMoodStore = {
     mood: number | null;
     text: string | null;
     location: Location | null;
-    // TODO: define image
-    image: any | null;
+    image: Blob | null;
 }
 
 export const useNewMoodStore = defineStore('newMood', {
@@ -32,5 +31,8 @@ export const useNewMoodStore = defineStore('newMood', {
         setLocation(value: Location) {
             this.location = value;
         },
+        setImage(value: Blob) {
+            this.image = value;
+        }
     },
 });

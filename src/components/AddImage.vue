@@ -11,16 +11,32 @@ export default {
 <script setup lang="ts">
 import {PhotoIcon, CameraIcon, VideoCameraIcon, VideoCameraSlashIcon} from '@heroicons/vue/20/solid';
 import {ref} from "vue";
+import {useNewMoodStore} from "../stores/newMood";
+
+const newMoodStore = useNewMoodStore();
+
+type Image = { blob: Blob, url: string };
 
 // Upload existing image
-const image = ref<string>();
+const uploadedImage = ref<Image | undefined>();
 
-function loadImage($event: Event) {
+const fileToBlob = async (file: File): Promise<Blob> => new Blob([new Uint8Array(await file.arrayBuffer())], {type: file.type});
+
+const loadImage = async ($event: Event) => {
   // get file from html form
   const target = $event.target as HTMLInputElement;
   let file = target.files![0];
-  image.value = file.name;
-  console.log(file);
+
+  // Convert uploaded file to blob
+  const blob = await fileToBlob(file);
+  const url = URL.createObjectURL(blob);
+  uploadedImage.value = {blob, url};
+
+  // Put uploaded image in store
+  newMoodStore.setImage(blob);
+  // Reset camera image
+  cameraPicture.value = undefined;
+
 }
 
 // Take image from webcam
@@ -28,21 +44,14 @@ const cameraRef = ref<InstanceType<typeof Camera>>();
 const cameraSpinner = ref(false);
 const canTakePicture = ref(false);
 const errorMsg = ref<string>();
-const cameraPicture = ref<{ blob: Blob, url: string } | undefined>();
+const cameraPicture = ref<Image | undefined>();
 
 const startCamera = () => {
-  console.log('starting camera');
   cameraRef.value?.start();
   cameraSpinner.value = true;
 }
-const stopCamera = () => {
-  console.log('stopping camera');
-  cameraRef.value?.stop();
-}
-const takePicture = () => {
-  console.log('taking picture');
-  cameraRef.value?.snapshot();
-}
+const stopCamera = () => cameraRef.value?.stop();
+const takePicture = () => cameraRef.value?.snapshot();
 
 // Camera callbacks
 const started = () => {
@@ -58,6 +67,11 @@ const snapshot = (blob: Blob) => {
   console.log("A snapshot has been taken");
   const url = URL.createObjectURL(blob);
   cameraPicture.value = {blob, url};
+
+  // Put picture in store
+  newMoodStore.setImage(blob);
+  // Reset uploaded image
+  uploadedImage.value = undefined;
 }
 const error = (error: Error) => {
   console.log("error", error);
@@ -77,7 +91,14 @@ const error = (error: Error) => {
         Add image
       </button>
       <input class="d-none" id='add-image' type='file' accept="image/jpeg" @change="loadImage($event)"/>
-      <div><code>{{ image }}</code></div>
+
+      <!-- display uploaded image -->
+      <div>
+        <img v-if="uploadedImage !== undefined"
+             :src="uploadedImage.url"
+             alt="uploaded image"
+             class="img-thumbnail img-fluid">
+      </div>
     </div>
   </div>
 
